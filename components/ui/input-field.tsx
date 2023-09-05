@@ -1,14 +1,9 @@
 import { Control } from "react-hook-form"
 
-import {
-  FormField,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import useLoading from "@/hooks/useLoading"
+import { FormFieldItem } from "@/components/ui/form-field-item"
 
 interface InputFieldProps {
   control: Control<FormValuesType>
@@ -28,18 +23,14 @@ export const InputField: React.FC<InputFieldProps> = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel className="capitalize">{name}</FormLabel>
-          <FormControl>
-            <Input
-              type={type}
-              disabled={loading}
-              placeholder={placeholder}
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
+        <FormFieldItem label={name}>
+          <Input
+            type={type}
+            placeholder={placeholder}
+            {...field}
+            disabled={loading}
+          />
+        </FormFieldItem>
       )}
     />
   )
