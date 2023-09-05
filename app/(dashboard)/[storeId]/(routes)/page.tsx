@@ -2,6 +2,8 @@ import type { Store } from "@prisma/client"
 
 import prismadb from "@/lib/prismadb"
 
+export const dynamic = "force-static"
+
 interface DashboardPageProps {
   params: { storeId: string }
 }
