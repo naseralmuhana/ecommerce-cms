@@ -1,4 +1,4 @@
-import { Store } from "@prisma/client"
+import type { Store } from "@prisma/client"
 
 import prismadb from "@/lib/prismadb"
 
