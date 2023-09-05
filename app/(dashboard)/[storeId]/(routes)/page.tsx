@@ -1,3 +1,5 @@
+import { Store } from "@prisma/client"
+
 import prismadb from "@/lib/prismadb"
 
 interface DashboardPageProps {
@@ -15,7 +17,7 @@ export async function generateStaticParams({ params }: DashboardPageProps) {
   const stores = await prismadb.store.findMany({
     where: { id: params.storeId },
   })
-  return stores.map((store) => ({
+  return stores.map((store: Store) => ({
     storeId: store.id,
   }))
 }
