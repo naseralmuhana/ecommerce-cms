@@ -13,10 +13,10 @@ export default function MainNav({ className }: MainNavProps) {
 
   // Define the navigation routes
   const routes = [
-    // {
-    //   label: "Overview",
-    //   href: `/${params.storeId}`,
-    // },
+    {
+      label: "Overview",
+      href: `/${params.storeId}`,
+    },
     // {
     //   label: "Billboards",
     //   href: `/${params.storeId}/billboards`,
