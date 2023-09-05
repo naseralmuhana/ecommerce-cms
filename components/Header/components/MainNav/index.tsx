@@ -21,10 +21,10 @@ export default function MainNav({ className }: MainNavProps) {
       label: "Billboards",
       href: `/${params.storeId}/billboards`,
     },
-    // {
-    //   label: "Categories",
-    //   href: `/${params.storeId}/categories`,
-    // },
+    {
+      label: "Categories",
+      href: `/${params.storeId}/categories`,
+    },
     // {
     //   label: "Sizes",
     //   href: `/${params.storeId}/sizes`,

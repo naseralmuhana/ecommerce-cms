@@ -18,19 +18,36 @@ model Store {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
   billboards Billboard[]
+  Category   Category[]
 
   @@map("stores")
 }
 
 model Billboard {
-  id        String   @id @default(cuid())
-  label     String   @db.VarChar(255)
-  imageUrl  String   @map("image_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  storeId   String   @map("store_id")
-  store     Store    @relation(fields: [storeId], references: [id])
+  id         String     @id @default(cuid())
+  label      String     @db.VarChar(255)
+  imageUrl   String     @map("image_url")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  storeId    String     @map("store_id")
+  store      Store      @relation(fields: [storeId], references: [id])
+  categories Category[]
 
   @@index([storeId])
   @@map("billboards")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  storeId     String    @map("store_id")
+  store       Store     @relation(fields: [storeId], references: [id])
+  billboardId String    @map("billboard_id")
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
+
+  @@index([storeId])
+  @@index([billboardId])
+  @@map("categories")
 }

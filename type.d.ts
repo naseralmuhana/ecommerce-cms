@@ -7,12 +7,18 @@ type BillboardColumnsType = {
   updatedAt: string
 }
 
-type ApiAlertListEntityName =
-  | "billboards"
-  | "categories"
-  | "colors"
-  | "sizes"
-  | "products"
+type CategoryColumnsType = {
+  id: string
+  name: string
+  billboardLabel: string
+  updatedAt: string
+}
+
+type TableColumnsType = BillboardColumnsType | CategoryColumnsType
+
+type PathType = "billboards" | "categories" | "colors" | "sizes" | "products"
+
+type ApiAlertListEntityName = PathType
 
 type ApiAlertListEntityNameId =
   | "billboardId"

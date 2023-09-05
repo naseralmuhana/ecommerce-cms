@@ -23,11 +23,9 @@ import {
   cellActionDeleteSuccessMessage,
 } from "@/lib/helpers"
 
-type TableColumnsType = BillboardColumnsType
-
 interface DataTableRowActionsProps {
   data: TableColumnsType
-  path: "billboards"
+  path: PathType
 }
 
 export function DataTableRowActions({ data, path }: DataTableRowActionsProps) {

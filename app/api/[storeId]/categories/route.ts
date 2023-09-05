@@ -5,68 +5,69 @@ import prismadb from "@/lib/prismadb"
 
 type Params = { params: { storeId: string } }
 
-// Handler function for retrieving billboards associated with a store
+// Handler function for retrieving categories associated with a store
 export async function GET(req: Request, { params }: Params) {
   try {
     // Check if storeId parameter is provided
     if (!params.storeId)
       return new NextResponse("Store id is required", { status: 400 })
 
-    // Retrieve billboards from the database based on storeId
-    const billboards = await prismadb.billboard.findMany({
+    // Retrieve categories from the database based on storeId
+    const categories = await prismadb.category.findMany({
       where: { storeId: params.storeId },
     })
 
-    // Return the retrieved billboards as JSON response
-    return NextResponse.json(billboards)
+    // Return the retrieved categories as JSON response
+    return NextResponse.json(categories)
   } catch (error) {
     // Log the error for debugging purposes
-    console.error("[BILLBOARDS_GET]", error)
+    console.error("[CATEGORIES_GET]", error)
 
     // Return an internal error response
     return new NextResponse("Internal Error", { status: 500 })
   }
 }
 
-// Handler function for creating a new billboard
+// Handler function for creating a new category
 export async function POST(req: Request, { params }: Params) {
   try {
     // Authenticate the user using Clerk
     const { userId } = auth()
 
-    // Extract label and imageUrl from request body
-    const { label, imageUrl } = await req.json()
+    // Extract name and billboardId from request body
+    const { name, billboardId } = await req.json()
 
     // Check if the user is authenticated
     if (!userId) return new NextResponse("Unauthenticated", { status: 401 })
-    // Check if storeId, label, and imageUrl are provided
+    // Check if storeId, name, and billboardId are provided
     if (!params.storeId)
       return new NextResponse("Store id is required", { status: 400 })
-    if (!label) return new NextResponse("Label is required", { status: 400 })
-    if (!imageUrl)
-      return new NextResponse("Image Url is required", { status: 400 })
+    if (!name) return new NextResponse("Name is required", { status: 400 })
+    if (!billboardId)
+      return new NextResponse("Billboard is required", { status: 400 })
 
-    // Check if the user is authorized to create a billboard for this store
+    // Check if the user is authorized to create a category for this store
     const storeByUserId = await prismadb.store.findFirst({
       where: { userId, id: params.storeId },
     })
     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
 
-    // Create a new billboard record in the database
-    const billboard = await prismadb.billboard.create({
-      data: { label, imageUrl, storeId: params.storeId },
+    // Create a new category record in the database
+    const category = await prismadb.category.create({
+      data: { name, billboardId, storeId: params.storeId },
     })
 
-    // Return the newly created billboard as JSON response
-    return NextResponse.json(billboard)
+    // Return the newly created category as JSON response
+    return NextResponse.json(category)
   } catch (error) {
     // Log the error for debugging purposes
-    console.error("[BILLBOARD_POST]", error)
+    console.error("[CATEGORY_POST]", error)
 
     // Return an internal error response
     return new NextResponse("Internal Error", { status: 500 })
   }
 }
+
 export async function DELETE(req: Request, { params }: Params) {
-  console.log("[BILLBOARDS_DELETE]")
+  console.log("[CATEGORIES_DELETE]")
 }

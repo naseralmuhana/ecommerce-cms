@@ -19,14 +19,11 @@ import { DataTable } from "@/components/ui/data-table"
  *
  */
 
-type TableColumnsType = BillboardColumnsType
-
 interface TablePageContentProps {
   data: TableColumnsType[]
   columns: ColumnDef<any>[]
   headingTitle: string
   headingDescription: string
-
   apiAlertListEntityName: ApiAlertListEntityName
   apiAlertListEntityIdName: ApiAlertListEntityNameId
 }
