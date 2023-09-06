@@ -54,5 +54,6 @@ export const sizeColumns: ColumnDef<SizeColumnsType>[] = [
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions data={row.original} path="sizes" />,
+    enableGlobalFilter: false,
   },
 ]

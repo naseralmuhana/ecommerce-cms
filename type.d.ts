@@ -21,10 +21,18 @@ type SizeColumnsType = {
   updatedAt: string
 }
 
+type ColorColumnsType = {
+  id: string
+  name: string
+  value: string
+  updatedAt: string
+}
+
 type TableColumnsType =
   | BillboardColumnsType
   | CategoryColumnsType
   | SizeColumnsType
+  | ColorColumnsType
 
 type PathType = "billboards" | "categories" | "colors" | "sizes" | "products"
 

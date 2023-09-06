@@ -27,3 +27,8 @@ export const sizeFormSchema = z.object({
   name: z.string().trim().nonempty({ message: "Required" }),
   value: z.string().trim().nonempty({ message: "Required" }),
 })
+
+export const colorFormSchema = z.object({
+  name: z.string().trim().nonempty({ message: "Required" }),
+  value: z.string().min(4, { message: "Must be a valid hex code" }).regex(/^#/),
+})

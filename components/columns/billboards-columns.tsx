@@ -70,5 +70,6 @@ export const billboardsColumns: ColumnDef<BillboardColumnsType>[] = [
     cell: ({ row }) => (
       <DataTableRowActions data={row.original} path="billboards" />
     ),
+    enableGlobalFilter: false,
   },
 ]
