@@ -46,13 +46,13 @@ export const billboardsColumns: ColumnDef<BillboardColumnsType>[] = [
       const { label, imageUrl } = row.original
       return (
         <Image
-          width={80}
-          height={80}
+          width={90}
+          height={90}
           priority={true}
           sizes="(min-width: 620px) 80px, (min-width: 460px) calc(25vw - 70px), 41px"
           src={imageUrl}
           alt={`${label} image`}
-          className="rounded-md"
+          className="rounded-md shadow-md"
         />
       )
     },

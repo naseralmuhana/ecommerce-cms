@@ -18,7 +18,9 @@ model Store {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
   billboards Billboard[]
-  Category   Category[]
+  categories Category[]
+  sizes      Size[]
+  colors     Color[]
 
   @@map("stores")
 }
@@ -50,4 +52,30 @@ model Category {
   @@index([storeId])
   @@index([billboardId])
   @@map("categories")
+}
+
+model Size {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(255)
+  value     String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  storeId   String   @map("store_id")
+  store     Store    @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
+  @@map("sizes")
+}
+
+model Color {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(255)
+  value     String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  storeId   String   @map("store_id")
+  store     Store    @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
+  @@map("colors")
 }
