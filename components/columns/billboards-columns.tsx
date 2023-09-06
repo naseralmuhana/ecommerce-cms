@@ -48,9 +48,11 @@ export const billboardsColumns: ColumnDef<BillboardColumnsType>[] = [
         <Image
           width={80}
           height={80}
+          priority={true}
+          sizes="(min-width: 620px) 80px, (min-width: 460px) calc(25vw - 70px), 41px"
           src={imageUrl}
           alt={`${label} image`}
-          className="rounded-md w-auto"
+          className="rounded-md"
         />
       )
     },

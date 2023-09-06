@@ -49,10 +49,11 @@ export function ImageUpload({ onChange, onRemove, value }: ImageUploadProps) {
             </div>
             <Image
               fill
+              priority={true}
+              sizes="200px"
               className="object-cover"
               alt="Image"
               src={url}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         ))}
