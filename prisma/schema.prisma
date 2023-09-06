@@ -41,14 +41,15 @@ model Billboard {
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @db.VarChar(255)
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  storeId     String    @map("store_id")
-  store       Store     @relation(fields: [storeId], references: [id])
-  billboardId String    @map("billboard_id")
-  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  id          String            @id @default(cuid())
+  name        String            @db.VarChar(255)
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+  storeId     String            @map("store_id")
+  store       Store             @relation(fields: [storeId], references: [id])
+  billboardId String            @map("billboard_id")
+  billboard   Billboard         @relation(fields: [billboardId], references: [id])
+  products    ProductCategory[]
 
   @@index([storeId])
   @@index([billboardId])
@@ -70,30 +71,33 @@ model Size {
 }
 
 model Color {
-  id        String   @id @default(cuid())
-  name      String   @db.VarChar(255)
-  value     String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  storeId   String   @map("store_id")
-  store     Store    @relation(fields: [storeId], references: [id])
+  id        String         @id @default(cuid())
+  name      String         @db.VarChar(255)
+  value     String         @db.VarChar(255) // @db.VarChar(6) @length(4, 6) // Minimum 4 characters, maximum 6 characters
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  storeId   String         @map("store_id")
+  store     Store          @relation(fields: [storeId], references: [id])
+  products  ProductColor[]
 
   @@index([storeId])
   @@map("colors")
 }
 
 model Product {
-  id         String        @id @default(cuid())
-  name       String        @db.VarChar(255)
-  price      Decimal       @db.Decimal()
-  isFeatured Boolean       @default(false) @map("is_featured")
-  isArchived Boolean       @default(false) @map("is_archived")
-  createdAt  DateTime      @default(now()) @map("created_at")
-  updatedAt  DateTime      @updatedAt @map("updated_at")
-  storeId    String        @map("store_id")
-  store      Store         @relation(fields: [storeId], references: [id])
+  id         String            @id @default(cuid())
+  name       String            @db.VarChar(255)
+  price      Decimal           @db.Decimal()
+  isFeatured Boolean           @default(false) @map("is_featured")
+  isArchived Boolean           @default(false) @map("is_archived")
+  createdAt  DateTime          @default(now()) @map("created_at")
+  updatedAt  DateTime          @updatedAt @map("updated_at")
+  storeId    String            @map("store_id")
+  store      Store             @relation(fields: [storeId], references: [id])
   images     Image[]
+  categories ProductCategory[]
   sizes      ProductSize[]
+  colors     ProductColor[]
 
   @@index([storeId])
   @@map("products")
@@ -111,6 +115,19 @@ model Image {
   @@map("images")
 }
 
+model ProductCategory {
+  productId  String   @map("product_id")
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  categoryId String   @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  assignedAt DateTime @default(now())
+
+  @@id([categoryId, productId])
+  @@index([categoryId])
+  @@index([productId])
+  @@map("products_categories")
+}
+
 model ProductSize {
   productId  String   @map("product_id")
   product    Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
@@ -122,4 +139,17 @@ model ProductSize {
   @@index([sizeId])
   @@index([productId])
   @@map("products_sizes")
+}
+
+model ProductColor {
+  productId  String   @map("product_id")
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  colorId    String   @map("color_id")
+  color      Color    @relation(fields: [colorId], references: [id], onDelete: Restrict)
+  assignedAt DateTime @default(now())
+
+  @@id([colorId, productId])
+  @@index([colorId])
+  @@index([productId])
+  @@map("products_colors")
 }
