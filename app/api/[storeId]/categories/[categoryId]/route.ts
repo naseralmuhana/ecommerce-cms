@@ -57,7 +57,7 @@ export async function PATCH(req: Request, { params }: Params) {
     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
 
     // Update the specified category in the database
-    const updatedCategory = await prismadb.category.updateMany({
+    const updatedCategory = await prismadb.category.update({
       where: { storeId: params.storeId, id: params.categoryId },
       data: { name, billboardId },
     })
@@ -88,7 +88,7 @@ export async function DELETE(req: Request, { params }: Params) {
       return new NextResponse("Category id is required", { status: 400 })
 
     // Check if the user is authorized to delete the category
-    const storeByUserId = await prismadb.store.findFirst({
+    const storeByUserId = await prismadb.store.findUnique({
       where: { userId, id: params.storeId },
     })
     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })

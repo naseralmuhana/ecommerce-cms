@@ -57,7 +57,7 @@ export async function PATCH(req: Request, { params }: Params) {
     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
 
     // Update the specified billboard in the database
-    const updatedBillboard = await prismadb.billboard.updateMany({
+    const updatedBillboard = await prismadb.billboard.update({
       where: { storeId: params.storeId, id: params.billboardId },
       data: { label, imageUrl },
     })
@@ -88,7 +88,7 @@ export async function DELETE(req: Request, { params }: Params) {
       return new NextResponse("Billboard id is required", { status: 400 })
 
     // Check if the user is authorized to delete the billboard
-    const storeByUserId = await prismadb.store.findFirst({
+    const storeByUserId = await prismadb.store.findUnique({
       where: { userId, id: params.storeId },
     })
     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 400 })

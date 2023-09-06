@@ -22,3 +22,8 @@ export const categoryFormSchema = z.object({
     message: "Please select a billboard",
   }),
 })
+
+export const sizeFormSchema = z.object({
+  name: z.string().trim().nonempty({ message: "Required" }),
+  value: z.string().trim().nonempty({ message: "Required" }),
+})

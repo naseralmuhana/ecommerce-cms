@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb"
 import BillboardForm from "./components/BillboardForm"
 
-type BillboardPageProps = {
+interface BillboardPageProps {
   params: { billboardId: string; storeId: string }
 }
 

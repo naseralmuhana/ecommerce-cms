@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions"
 import { Checkbox } from "@/components/ui/checkbox"
 
-export const categoriesColumns: ColumnDef<CategoryColumnsType>[] = [
+export const sizeColumns: ColumnDef<SizeColumnsType>[] = [
   {
     accessorKey: "id",
     id: "select",
@@ -39,12 +39,10 @@ export const categoriesColumns: ColumnDef<CategoryColumnsType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "billboardLabel",
-    id: "billboard",
+    accessorKey: "value",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Billboard" />
+      <DataTableColumnHeader column={column} title="Value" />
     ),
-    cell: ({ row }) => row.original.billboardLabel,
   },
   {
     accessorKey: "updatedAt",
@@ -55,8 +53,6 @@ export const categoriesColumns: ColumnDef<CategoryColumnsType>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => (
-      <DataTableRowActions data={row.original} path="categories" />
-    ),
+    cell: ({ row }) => <DataTableRowActions data={row.original} path="sizes" />,
   },
 ]

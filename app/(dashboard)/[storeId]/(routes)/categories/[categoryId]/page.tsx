@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb"
 import CategoryForm from "./components/CategoryForm"
 
-type CategoryPageProps = {
+interface CategoryPageProps {
   params: { categoryId: string; storeId: string }
 }
 

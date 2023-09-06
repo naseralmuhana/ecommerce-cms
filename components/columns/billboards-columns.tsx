@@ -4,8 +4,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
 
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
-import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export const billboardsColumns: ColumnDef<BillboardColumnsType>[] = [
   {
