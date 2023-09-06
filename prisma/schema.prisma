@@ -21,6 +21,7 @@ model Store {
   categories Category[]
   sizes      Size[]
   colors     Color[]
+  products   Product[]
 
   @@map("stores")
 }
@@ -55,13 +56,14 @@ model Category {
 }
 
 model Size {
-  id        String   @id @default(cuid())
-  name      String   @db.VarChar(255)
-  value     String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  storeId   String   @map("store_id")
-  store     Store    @relation(fields: [storeId], references: [id])
+  id        String        @id @default(cuid())
+  name      String        @db.VarChar(255)
+  value     String        @db.VarChar(255)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+  storeId   String        @map("store_id")
+  store     Store         @relation(fields: [storeId], references: [id])
+  products  ProductSize[]
 
   @@index([storeId])
   @@map("sizes")
@@ -78,4 +80,46 @@ model Color {
 
   @@index([storeId])
   @@map("colors")
+}
+
+model Product {
+  id         String        @id @default(cuid())
+  name       String        @db.VarChar(255)
+  price      Decimal       @db.Decimal()
+  isFeatured Boolean       @default(false) @map("is_featured")
+  isArchived Boolean       @default(false) @map("is_archived")
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+  storeId    String        @map("store_id")
+  store      Store         @relation(fields: [storeId], references: [id])
+  images     Image[]
+  sizes      ProductSize[]
+
+  @@index([storeId])
+  @@map("products")
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  productId String   @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("images")
+}
+
+model ProductSize {
+  productId  String   @map("product_id")
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  sizeId     String   @map("size_id")
+  size       Size     @relation(fields: [sizeId], references: [id], onDelete: Restrict)
+  assignedAt DateTime @default(now())
+
+  @@id([sizeId, productId])
+  @@index([sizeId])
+  @@index([productId])
+  @@map("products_sizes")
 }
