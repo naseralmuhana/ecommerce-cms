@@ -58,7 +58,7 @@ export const TablePageContent: React.FC<TablePageContentProps> = ({
         <DataTable
           columns={columns}
           data={data}
-          // route={apiAlertListEntityName}
+          apiPathToDeleteMany={apiAlertListEntityName}
         />
         <ApiAlertList
           entityName={apiAlertListEntityName}

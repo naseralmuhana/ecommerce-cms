@@ -67,47 +67,46 @@ export async function POST(req: Request, { params }: Params) {
   }
 }
 export async function DELETE(req: Request, { params }: Params) {
-  console.log("[COLORS_DELETE]")
-  //   try {
-  //     // Authenticate the user using Clerk
-  //     const { userId } = auth()
+  try {
+    // Authenticate the user using Clerk
+    const { userId } = auth()
 
-  //     // Extract label and imageUrl from request body
-  //     const { ids } = await req.json()
+    // Extract ids from request body
+    const { ids } = await req.json()
 
-  //     // Check if the user is authenticated
-  //     if (!userId) return new NextResponse("Unauthenticated", { status: 401 })
+    // Check if the user is authenticated
+    if (!userId) return new NextResponse("Unauthenticated", { status: 401 })
 
-  //     // Check if storeId parameter is provided
-  //     if (!params.storeId)
-  //       return new NextResponse("Store id is required", { status: 400 })
+    // Check if storeId parameter is provided
+    if (!params.storeId)
+      return new NextResponse("Store id is required", { status: 400 })
 
-  //     // Check if ids parameter is provided
-  //     if (!ids || !ids.length) {
-  //       return new NextResponse("No colors Selected", { status: 400 })
-  //     }
+    // Check if ids parameter is provided
+    if (!ids || !ids.length) {
+      return new NextResponse("No color(s) Selected", { status: 400 })
+    }
 
-  //     // Check if the user is authorized to delete ids
-  //     const storeByUserId = await prismadb.store.findFirst({
-  //       where: { userId, id: params.storeId },
-  //     })
-  //     if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
+    // Check if the user is authorized to delete ids
+    const storeByUserId = await prismadb.store.findFirst({
+      where: { userId, id: params.storeId },
+    })
+    if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
 
-  //     // Delete the ids from the database
-  //     const deleteSelected = await prismadb.color.deleteMany({
-  //       where: {
-  //         id: { in: ids },
-  //         storeId: params.storeId,
-  //       },
-  //     })
+    // Delete the ids from the database
+    const deleteSelected = await prismadb.color.deleteMany({
+      where: {
+        id: { in: ids },
+        storeId: params.storeId,
+      },
+    })
 
-  //     // Return the deleted colors as JSON response
-  //     return NextResponse.json(deleteSelected)
-  //   } catch (error) {
-  //     // Log the error with context for debugging purposes
-  //     console.error("[MULTIPLE_COLORS_DELETE]", error)
+    // Return the deleted colors as JSON response
+    return NextResponse.json(deleteSelected)
+  } catch (error) {
+    // Log the error for debugging purposes
+    console.error("[MULTIPLE_COLORS_DELETE]", error)
 
-  //     // Return an internal error response
-  //     return new NextResponse("Internal Error", { status: 500 })
-  //   }
+    // Return an internal error response
+    return new NextResponse("Internal Error", { status: 500 })
+  }
 }

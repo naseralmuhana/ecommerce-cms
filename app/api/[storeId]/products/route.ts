@@ -10,10 +10,17 @@ type Params = { params: { storeId: string } }
 export async function GET(req: Request, { params }: Params) {
   try {
     const { searchParams } = new URL(req.url)
-    const categoryId = searchParams.get("categoryId") || undefined
+
+    const categoriesSearchParams = searchParams.getAll("categoryId")
+    const categoryIds = categoriesSearchParams.length
+      ? categoriesSearchParams
+      : undefined
     const sizeId = searchParams.get("sizeId") || undefined
     const colorId = searchParams.get("colorId") || undefined
-    const isFeatured = searchParams.get("isFeatured")
+    // const sort = searchParams.get("sort") || undefined
+    const isFeatured = searchParams.get("isFeatured") || undefined
+
+    console.log(categoryIds)
 
     // Check if storeId parameter is provided
     if (!params.storeId)
@@ -23,9 +30,9 @@ export async function GET(req: Request, { params }: Params) {
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        // categories: { some: { id: categoryId } },
-        // sizes: { some: { id: sizeId } },
-        // colors: { some: { id: colorId } },
+        categories: { some: { categoryId: { in: categoryIds } } },
+        sizes: { some: { sizeId } },
+        colors: { some: { colorId } },
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
@@ -35,9 +42,12 @@ export async function GET(req: Request, { params }: Params) {
         sizes: true,
         colors: true,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: [
+        // {
+        //   price: sort === "low" ? "asc" : sort === "high" ? "desc" : undefined,
+        // },
+        { createdAt: "desc" },
+      ],
     })
 
     // Return the retrieved products as JSON response
@@ -133,5 +143,71 @@ export async function POST(req: Request, { params }: Params) {
 }
 
 export async function DELETE(req: Request, { params }: Params) {
-  console.log("[PRODUCTS_DELETE]")
+  try {
+    // Authenticate the user using Clerk
+    const { userId } = auth()
+
+    // Extract ids from request body
+    const { ids } = await req.json()
+
+    // Check if the user is authenticated
+    if (!userId) return new NextResponse("Unauthenticated", { status: 401 })
+
+    // Check if storeId parameter is provided
+    if (!params.storeId)
+      return new NextResponse("Store id is required", { status: 400 })
+
+    // Check if ids parameter is provided
+    if (!ids || !ids.length) {
+      return new NextResponse("No product(s) Selected", { status: 400 })
+    }
+
+    // Check if the user is authorized to delete ids
+    const storeByUserId = await prismadb.store.findFirst({
+      where: { userId, id: params.storeId },
+    })
+    if (!storeByUserId) return new NextResponse("Unauthorized", { status: 403 })
+
+    // await prismadb.product.updateMany({
+    //   where: { storeId: params.storeId },
+    //   data: {
+    //     categories: { deleteMany: {} },
+    //     sizes: { deleteMany: {} },
+    //     colors: { deleteMany: {} },
+    //   },
+    // })
+
+    await prismadb.productCategory.deleteMany({
+      where: {
+        productId: { in: ids },
+      },
+    })
+    await prismadb.productColor.deleteMany({
+      where: {
+        productId: { in: ids },
+      },
+    })
+    await prismadb.productSize.deleteMany({
+      where: {
+        productId: { in: ids },
+      },
+    })
+
+    // Delete the ids from the database
+    const deleteSelected = await prismadb.product.deleteMany({
+      where: {
+        id: { in: ids },
+        storeId: params.storeId,
+      },
+    })
+
+    // Return the deleted colors as JSON response
+    return NextResponse.json(deleteSelected)
+  } catch (error) {
+    // Log the error with context for debugging purposes
+    console.error("[MULTIPLE_COLORS_DELETE]", error)
+
+    // Return an internal error response
+    return new NextResponse("Internal Error", { status: 500 })
+  }
 }

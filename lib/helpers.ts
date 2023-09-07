@@ -25,10 +25,12 @@ export const formStaticData = (
 // Define constants for error messages
 const errorMessages = {
   billboards:
-    "Make sure you removed all categories using this billboard first.",
-  categories: "Make sure you removed all products using this category first.",
-  sizes: "Make sure you removed all products using this size first.",
-  colors: "Make sure you removed all products using this color first.",
+    "Make sure you removed all categories using the selected billboard(s) first.",
+  categories:
+    "Make sure you removed all products using the selected category(s) first.",
+  sizes: "Make sure you removed all products using the selected size(s) first.",
+  colors:
+    "Make sure you removed all products using the selected color(s) first.",
   products: "Something went wrong.",
 }
 
