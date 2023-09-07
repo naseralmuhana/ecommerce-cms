@@ -23,9 +23,9 @@ export async function GET(req: Request, { params }: Params) {
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        categories: { some: { id: categoryId } },
-        sizes: { some: { id: sizeId } },
-        colors: { some: { id: colorId } },
+        // categories: { some: { id: categoryId } },
+        // sizes: { some: { id: sizeId } },
+        // colors: { some: { id: colorId } },
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
