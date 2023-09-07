@@ -1,12 +1,21 @@
 "use client"
 
 import axios from "axios"
+import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Copy, Edit, Trash } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 
+import type { ProductColumnsType } from "@/components/columns/products-columns"
+
 import { Button } from "@/components/ui/button"
+import useLoading from "@/hooks/useLoading"
+import { AlertModal } from "@/components/ui/alert-modal"
+import {
+  cellActionDeleteErrorMessage,
+  cellActionDeleteSuccessMessage,
+} from "@/lib/helpers"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,16 +24,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import useLoading from "@/hooks/useLoading"
-import { AlertModal } from "./alert-modal"
-import { useState } from "react"
-import {
-  cellActionDeleteErrorMessage,
-  cellActionDeleteSuccessMessage,
-} from "@/lib/helpers"
 
 interface DataTableRowActionsProps {
-  data: TableColumnsType
+  data: TableColumnsType | ProductColumnsType
   path: PathType
 }
 

@@ -4,6 +4,8 @@ import { Plus } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 import { ColumnDef } from "@tanstack/react-table"
 
+import type { ProductColumnsType } from "@/components/columns/products-columns"
+
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
@@ -20,7 +22,7 @@ import { DataTable } from "@/components/ui/data-table"
  */
 
 interface TablePageContentProps {
-  data: TableColumnsType[]
+  data: TableColumnsType[] | ProductColumnsType[]
   columns: ColumnDef<any>[]
   headingTitle: string
   headingDescription: string

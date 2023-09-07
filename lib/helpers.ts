@@ -1,3 +1,4 @@
+import type { ProductFormProps } from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/@types"
 import { FormLayoutProps } from "@/components/FormLayout"
 
 export const formStaticData = (
@@ -60,3 +61,21 @@ export const cellActionDeleteSuccessMessage = (
 //------------------------------------------------------------
 //------------------------------------------------------------
 //------------------------------------------------------------
+
+export const formattedProductInitialData = (
+  initialData: ProductFormProps["initialData"]
+) => {
+  return {
+    ...initialData,
+    price: parseFloat(String(initialData?.price)),
+    sizes: initialData?.sizes.map((size) => ({
+      id: size.sizeId,
+    })),
+    categories: initialData?.categories.map((category) => ({
+      id: category.categoryId,
+    })),
+    colors: initialData?.colors.map((color) => ({
+      id: color.colorId,
+    })),
+  }
+}
