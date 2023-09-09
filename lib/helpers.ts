@@ -53,6 +53,7 @@ const successMessages = {
   sizes: "Size deleted.",
   colors: "Color deleted.",
   products: "Product deleted.",
+  orders: "Order deleted.",
 }
 
 // Function to get the success message based on the action path
