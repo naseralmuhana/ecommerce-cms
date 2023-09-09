@@ -31,6 +31,8 @@ const errorMessages = {
   sizes: "Make sure you removed all products using the selected size(s) first.",
   colors:
     "Make sure you removed all products using the selected color(s) first.",
+
+  orders: "Something went wrong.",
   products: "Something went wrong.",
 }
 

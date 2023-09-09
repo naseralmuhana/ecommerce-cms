@@ -28,13 +28,30 @@ type ColorColumnsType = {
   updatedAt: string
 }
 
+type OrderColumnsType = {
+  id: string
+  phone: string
+  address: string
+  isPaid: boolean
+  product: string
+  totalPrice: string
+  updatedAt: string
+}
+
 type TableColumnsType =
   | BillboardColumnsType
   | CategoryColumnsType
   | SizeColumnsType
   | ColorColumnsType
+  | OrderColumnsType
 
-type PathType = "billboards" | "categories" | "colors" | "sizes" | "products"
+type PathType =
+  | "orders"
+  | "billboards"
+  | "categories"
+  | "colors"
+  | "sizes"
+  | "products"
 
 type ApiAlertListEntityName = PathType
 

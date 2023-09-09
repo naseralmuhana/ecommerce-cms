@@ -114,7 +114,7 @@ model Order {
   updatedAt DateTime       @updatedAt @map("updated_at")
   storeId   String         @map("store_id")
   store     Store          @relation(fields: [storeId], references: [id])
-  orders    ProductOrder[]
+  products  ProductOrder[]
 
   @@index([storeId])
   @@map("orders")

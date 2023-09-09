@@ -37,10 +37,10 @@ export default function MainNav({ className }: MainNavProps) {
       label: "Products",
       href: `/${params.storeId}/products`,
     },
-    // {
-    //   label: "Orders",
-    //   href: `/${params.storeId}/orders`,
-    // },
+    {
+      label: "Orders",
+      href: `/${params.storeId}/orders`,
+    },
     {
       label: "Settings",
       href: `/${params.storeId}/settings`,
